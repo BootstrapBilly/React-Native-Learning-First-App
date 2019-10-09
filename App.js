@@ -19,9 +19,14 @@ export default function App() {
 
   }
 
-  const deleteGoalHandler = () => {//Entered goal is the value passed when the onButtonPress prop is called
+  const deleteGoalHandler = goalKey => {//Entered goal is the value passed when the onButtonPress prop is called
 
-    // setCourseGoals(currentGoals => [...currentGoals].pop())
+    setCourseGoals(currentGoals => {//set the goals array to a new value, start with the current value of the array
+
+      //return the current goals filtered by the goal ID pass into this deleteGoalHandler function(goalKey)
+      //It will return every element whos key does not match the passed in goal key
+      return currentGoals.filter(goal => goal.key !== goalKey)
+    })
 
     console.log(courseGoals)
   }
@@ -35,7 +40,7 @@ export default function App() {
 
       <GoalInput onAddButtonPress={addGoalHandler}/>
 
-      <FlatList data={courseGoals} renderItem={goal => <GoalItem value={goal.item.value} onDelete={deleteGoalHandler}/>}/>
+      <FlatList data={courseGoals} renderItem={goal => <GoalItem value={goal.item.value} onDelete={deleteGoalHandler.bind(this, goal.item.key)}/>}/>
 
 
     </View>
