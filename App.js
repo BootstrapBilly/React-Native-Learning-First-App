@@ -10,12 +10,18 @@ export default function App() {
 
   const [courseGoals, setCourseGoals] = useState([]);
 
-  const addGoalHandler = enteredGoal => {//Entered goal is the value passed when the onButtonPress prop is called
+  const [addMode, toggleAddMode] = useState(false);
+
+  const addGoalHandler = (enteredGoal, setEnteredGoal) => {//Entered goal is the value passed when the onButtonPress prop is called
 
     setCourseGoals(currentGoals => [//Set the array (takes in the current array)
       ...currentGoals, //To the current array
       {key: Math.random().toString(), value: enteredGoal}//Plus a new object containing a randomly generated key and the value of the entered goal from the TextInput
     ]) //set course goals to whatever is currently in the array, plus the new course goal
+
+    toggleAddMode(false)
+
+    setEnteredGoal("")
 
   }
 
@@ -28,7 +34,6 @@ export default function App() {
       return currentGoals.filter(goal => goal.key !== goalKey)
     })
 
-    console.log(courseGoals)
   }
 
   //first element is the output/new text, second element is the function that changes the text
@@ -38,10 +43,11 @@ export default function App() {
 
     <View style={styles.screen}> 
 
-      <GoalInput onAddButtonPress={addGoalHandler}/>
+      <Button title={"Add new goal"} onPress={() => toggleAddMode(true)}/>
+
+      <GoalInput checkVisibility={addMode} onAddButtonPress={addGoalHandler} onCancelButtonPress={() => toggleAddMode(false)}/>
 
       <FlatList data={courseGoals} renderItem={goal => <GoalItem value={goal.item.value} onDelete={deleteGoalHandler.bind(this, goal.item.key)}/>}/>
-
 
     </View>
     

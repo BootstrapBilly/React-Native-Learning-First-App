@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Modal } from 'react-native';
 
 
 
@@ -19,19 +19,31 @@ setEnteredGoal(enteredText);
 
     return (
 
+      <Modal visible={props.checkVisibility} animationType="slide">
+
         <View style={styles.firstView}>
 
-            <TextInput 
+          <TextInput 
 
-            placeholder="Course goal" 
-            style={styles.firstView_textInput} 
-            onChangeText={goalInputHandler}
-            value={enteredGoal}
-            />
+          placeholder="Add goal" 
+          style={styles.firstView_textInput} 
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
+          />
 
-            <Button title="ADD" onPress={props.onAddButtonPress.bind(this, enteredGoal)}/>
+          <View style={styles.buttons}>
+
+            <View style={styles.button}><Button title="CANCEL" onPress={props.onCancelButtonPress} color={"red"}/></View>
+            <View style={styles.button}><Button title="ADD" onPress={props.onAddButtonPress.bind(this, enteredGoal, setEnteredGoal)}/></View>
+            
+            
+
+          </View>
 
         </View>
+
+      </Modal>
+
     ) 
 }
 
@@ -39,9 +51,10 @@ const styles = StyleSheet.create({
 
     firstView: {
 
-      flexDirection: "row", 
       justifyContent: "space-between", 
-      alignItems: "center"
+      alignItems: "center",
+      justifyContent: "center",
+      flex:1,
 
     },
 
@@ -50,9 +63,25 @@ const styles = StyleSheet.create({
       width: "80%", 
       borderColor: "black", 
       borderWidth: 1, 
-      padding:10
+      padding:10,
+      marginBottom: 10
 
     },
+
+    buttons : {
+
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "60%"
+  
+    },
+
+    button : {
+
+      width:"40%"
+
+    }
+
 
 });
 
